@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вікіпедія Мілка — Енциклопедія про кішку Мілку</title>
+    <meta name="description" content="Це енциклопедія про гарну кішку Мілку!">
+    <meta name="keywords" content="Мілка, Вікіпедія, енциклопедія, кішка, каліко.">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Основні налаштування */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f6f6f6;
+            color: #202124;
+            scroll-behavior: smooth;
+        }
+
+        /* Анімація появи */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            min-height: 100vh;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Стилі заголовка */
+        .wiki-header {
+            border-bottom: 1px solid #a2a9b1;
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+        }
+
+        .wiki-header h1 {
+            font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+            font-weight: 400;
+            font-size: 2.5em;
+            margin: 0;
+            color: #000;
+        }
+
+        .wiki-nav {
+            font-size: 13px;
+            color: #54595d;
+            margin-bottom: 15px;
+        }
+
+        /* Контент */
+        .wiki-content {
+            display: flex;
+            gap: 30px;
+            line-height: 1.7;
+        }
+
+        .wiki-text {
+            flex: 1;
+            font-size: 16px;
+        }
+        
+        /* Зміст */
+        .toc {
+            background-color: #f8f9fa;
+            border: 1px solid #a2a9b1;
+            padding: 15px 20px;
+            display: inline-block;
+            margin-bottom: 20px;
+            min-width: 250px;
+            border-radius: 2px;
+        }
+        .toc-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .toc li {
+            margin-bottom: 6px;
+        }
+        .toc a {
+            text-decoration: none;
+            color: #0645ad;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        /* Інфобокс */
+        .infobox {
+            width: 300px;
+            background-color: #f8f9fa;
+            border: 1px solid #a2a9b1;
+            padding: 15px;
+            font-size: 0.85em;
+            float: right;
+            border-radius: 2px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .infobox-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            background-color: #eaecf0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .infobox img {
+            width: 100%;
+            height: auto;
+            border-radius: 2px;
+            margin-bottom: 10px;
+            border: 1px solid #c8ccd1;
+        }
+
+        .infobox table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .infobox th {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #fff;
+            background-color: #eff1f3;
+            width: 45%;
+        }
+
+        .infobox td {
+            padding: 8px;
+            border-bottom: 1px solid #eaecf0;
+        }
+
+        /* Список звичок */
+        .habits-list {
+            background: #fdfdfd;
+            border-left: 5px solid #ffa726;
+            padding: 15px 20px 15px 40px;
+            margin: 20px 0;
+            list-style-type: disc;
+        }
+
+        .habits-list li {
+            margin-bottom: 8px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #f06292;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        /* Аудіоплеєр */
+        .audio-section {
+            border: 1px solid #c8ccd1;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .audio-section audio {
+            height: 40px;
+        }
+
+        .color-circle {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #000 33%, #fff 33%, #fff 66%, #ffa500 66%);
+            vertical-align: middle;
+            margin-left: 5px;
+            border: 1px solid #a2a9b1;
+        }
+
+        h2 {
+            border-bottom: 1px solid #a2a9b1;
+            padding-bottom: 5px;
+            margin-top: 35px;
+            font-family: 'Linux Libertine', 'Georgia', serif;
+        }
+
+        /* --- Стилі гри --- */
+        #game-area {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(to bottom, #fff3e0, #ffffff);
+            border: 2px solid #ffa726;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #game-canvas {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        #game-ui {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+            display: none;
+        }
+
+        #score-board {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e65100;
+            text-shadow: 1px 1px 2px white;
+        }
+
+        #start-btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: #ffa726;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        #start-btn:hover { background-color: #fb8c00; }
+
+        @media (max-width: 850px) {
+            .wiki-content { flex-direction: column-reverse; }
+            .infobox { width: 100%; float: none; margin: 0 0 20px 0; }
+            .main-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="wiki-nav">
+            <span>Матеріал з Вікіпедії — вільної енциклопедії.</span>
+        </div>
+        
+        <div class="wiki-header">
+            <h1>Мілка (кішка)</h1>
+        </div>
+
+        <div class="wiki-content">
+            <div class="wiki-text">
+                <p><strong>Мілка</strong> — представниця роду кішок (лат. <i>Felis catus</i>), що належить до фенотипу «каліко» (триколірна). Відома своєю винятковою гнучкістю, здатністю до раннього пробудження господарів та високим рівнем теплообміну під час сну. Має статус домашньої улюблениці та багаторічний досвід проживання у квартирних умовах.</p>
+                
+                <div class="toc">
+                    <div class="toc-title">Зміст</div>
+                    <ul>
+                        <li><a href="#appearance">1 Зовнішній вигляд та параметри</a></li>
+                        <li><a href="#vocalization">2 Вокалізація: класичне нявкання</a></li>
+                        <li><a href="#habits">3 Поведінкові характеристики</a></li>
+                        <li><a href="#biography">4 Біографія та вік</a></li>
+                        <li><a href="#thermal">5 Ефект «грілки» та сон</a></li>
+                        <li><a href="#regime">6 Добовий режим</a></li>
+                        <li><a href="#game-section">7 Гра: Мілка ловить кульки з фольги</a></li>
+                        <li><a href="#facts">8 Цікаві факти</a></li>
+                    </ul>
+                </div>
+
+                <h2 id="appearance">Зовнішній вигляд та параметри</h2>
+                <p>Мілка має забарвлення типу <strong>каліко</strong>, що характеризується поєднанням білих, рудих та чорних плям. Така комбінація кольорів в багатьох культурах вважається символом удачі. Її статура є витонченою та компактною: вага тварини становить приблизно <strong>3 кілограми 20 грамів</strong>, що дозволяє їй зберігати високу мобільність навіть у поважному віці.</p>
+                <p>Однією з головних фізичних особливостей Мілки є її неймовірна здатність до «проникнення». Завдяки анатомічним особливостям та невеликій масі, вона здатна пролізти у будь-який важкодоступний куточок квартири, що робить її неперевершеним дослідником замкнених просторів.</p>
+
+                <h2 id="vocalization">Вокалізація: класичне нявкання</h2>
+                <p>На відміну від деяких інших домашніх тварин, Мілка дотримується традиційної котячої системи комунікації. Вона використовує широкий діапазон нявкання для взаємодії з оточуючими. Її голос слугує інструментом для нагадування про час годування, прохання про гру або як природний «будильник» для членів родини.</p>
+                
+                <div class="audio-section">
+                    <div>
+                        <strong>Слухати аудіо:</strong><br>
+                        <span style="font-size: 0.9em; color: #54595d;">Типовий звук Мілки (нявкання).</span>
+                    </div>
+                    <audio controls preload="none">
+                        <source src="Sound.mp3" type="audio/mpeg">
+                        Ваш браузер не підтримує аудіоелемент HTML5.
+                    </audio>
+                </div>
+
+                <h2 id="habits">Поведінкові характеристики</h2>
+                <p>Мілка демонструє сталі ігрові вподобання та високий рівень інтелекту в побуті:</p>
+                <ul class="habits-list">
+                    <li><strong>Захоплення фольгою</strong> — абсолютним фаворитом серед іграшок є кулька зі звичайної алюмінієвої фольги. Шурхіт та непередбачувана траєкторія польоту кульки викликають у кішки миттєвий мисливський азарт.</li>
+                    <li><strong>Дослідження простору</strong> — відсутність закритих дверей є пріоритетом. Мілка вважає за необхідне перевіряти кожен кут приміщення.</li>
+                </ul>
+
+                <h2 id="biography">Біографія та вік</h2>
+                <p>Точна дата народження Мілки залишається невідомою, проте встановлено, що вона з'явилася на світ у <strong>середині літа</strong>. Станом на поточний час Мілці виповнилося <strong>12 років</strong>. Це вік зрілості та мудрості для котячих, що проявляється у її виважених рухах та впевненому характері.</p>
+
+                <h2 id="thermal">Ефект «грілки» та сон</h2>
+                <p>Унікальною особливістю Мілки є її здатність виступати в ролі природного джерела тепла. Коли кішка засинає на руках у людини, вона розташовується таким чином, що віддає максимальну кількість тепла в ноги. Цей феномен «біологічної грілки» особливо цінується господарями в холодну пору року і має терапевтичний ефект.</p>
+
+                <h2 id="regime">Добовий режим</h2>
+                <p>Мілка суворо дотримується встановленого нею графіка. Вона виконує функцію живого будильника, стабільно пробуджуючи маму та бабусю свого господаря рівно о <strong>6:00 ранку</strong>. Методи пробудження можуть варіюватися від вокальних закликів до тактильного контакту, але результат залишається незмінним — дотримання ранкового розпорядку.</p>
+
+                <h2 id="game-section">Гра: Мілка ловить кульки з фольги</h2>
+                <div id="game-area">
+                    <button id="start-btn">Почати гру</button>
+                    <div id="game-ui">
+                        <div id="score-board">Кульки: 0</div>
+                    </div>
+                    <canvas id="game-canvas"></canvas>
+                    <audio id="game-music" loop>
+                        <source src="Song.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+                <script>
+                    const canvas = document.getElementById('game-canvas');
+                    const ctx = canvas.getContext('2d');
+                    const startBtn = document.getElementById('start-btn');
+                    const gameUi = document.getElementById('game-ui');
+                    const scoreBoard = document.getElementById('score-board');
+                    const music = document.getElementById('game-music');
+
+                    let score = 0;
+                    let gameActive = false;
+                    let items = [];
+                    let milka = { x: 0, y: 0, w: 80, h: 80 };
+                    let animationId;
+
+                    const milkaImg = new Image();
+                    milkaImg.src = 'Мілка.png';
+
+                    function initGame() {
+                        canvas.style.display = 'block';
+                        gameUi.style.display = 'block';
+                        canvas.width = canvas.parentElement.clientWidth;
+                        canvas.height = canvas.parentElement.clientHeight;
+                        milka.x = canvas.width / 2 - milka.w / 2;
+                        milka.y = canvas.height - milka.h - 10;
+                        score = 0;
+                        items = [];
+                        gameActive = true;
+                        music.currentTime = 0;
+                        music.play();
+                        requestAnimationFrame(gameLoop);
+                    }
+
+                    function spawnItem() {
+                        if (Math.random() < 0.04) {
+                            items.push({
+                                x: Math.random() * (canvas.width - 30),
+                                y: -30,
+                                speed: 4 + (score / 10),
+                                color: '#cfd8dc'
+                            });
+                        }
+                    }
+
+                    function update() {
+                        spawnItem();
+                        items.forEach((item, index) => {
+                            item.y += item.speed;
+                            
+                            if (item.y + 30 > milka.y && item.x + 30 > milka.x && item.x < milka.x + milka.w) {
+                                items.splice(index, 1);
+                                score++;
+                                scoreBoard.innerText = 'Кульки: ' + score;
+                            }
+
+                            if (item.y > canvas.height) {
+                                gameOver();
+                            }
+                        });
+                    }
+
+                    function draw() {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        
+                        // Малюємо Мілку
+                        ctx.drawImage(milkaImg, milka.x, milka.y, milka.w, milka.h);
+
+                        // Малюємо кульки з фольги
+                        items.forEach(item => {
+                            ctx.beginPath();
+                            ctx.arc(item.x + 15, item.y + 15, 15, 0, Math.PI * 2);
+                            ctx.fillStyle = '#b0bec5';
+                            ctx.fill();
+                            ctx.strokeStyle = '#ffffff';
+                            ctx.stroke();
+                            // Блік на фользі
+                            ctx.fillStyle = '#ffffff';
+                            ctx.beginPath();
+                            ctx.arc(item.x + 10, item.y + 10, 4, 0, Math.PI * 2);
+                            ctx.fill();
+                        });
+                    }
+
+                    function gameLoop() {
+                        if (!gameActive) return;
+                        update();
+                        draw();
+                        animationId = requestAnimationFrame(gameLoop);
+                    }
+
+                    function gameOver() {
+                        gameActive = false;
+                        cancelAnimationFrame(animationId);
+                        music.pause();
+                        alert('Гру завершено! Мілка впіймала кульок: ' + score);
+                        canvas.style.display = 'none';
+                        gameUi.style.display = 'none';
+                        startBtn.style.display = 'block';
+                    }
+
+                    startBtn.addEventListener('click', () => {
+                        startBtn.style.display = 'none';
+                        initGame();
+                    });
+
+                    const handleMove = (e) => {
+                        if (!gameActive) return;
+                        let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                        let rect = canvas.getBoundingClientRect();
+                        let newX = clientX - rect.left - milka.w / 2;
+                        if (newX < 0) newX = 0;
+                        if (newX > canvas.width - milka.w) newX = canvas.width - milka.w;
+                        milka.x = newX;
+                    };
+
+                    canvas.parentElement.addEventListener('mousemove', handleMove);
+                    canvas.parentElement.addEventListener('touchmove', handleMove);
+                </script>
+
+                <h2 id="facts">Цікаві факти</h2>
+                <ul>
+                    <li>Мілка — справжня рекордсменка за кількістю схованок у квартирі.</li>
+                    <li>Вона є «дворняшкою», що часто корелює з міцним імунітетом та довголіттям.</li>
+                    <li>Незважаючи на вагу 3 кг, Мілка здатна зайняти все ліжко під час сну.</li>
+                    <li>Вона ніколи не помиляється в часі і будить маму рівно о шостій.</li>
+                    <li>Кулька з фольги для неї цінніша за будь-які дорогі магазинні іграшки.</li>
+                </ul>
+            </div>
+
+            <div class="infobox">
+                <div class="infobox-title">Мілка</div>
+                <img src="Мілка.png" alt="Фото кішки Мілки">
+                <p style="text-align: center; font-size: 0.8em; color: #555; margin-top: 0;">Мілка — 12-річна експертка з комфорту</p>
+                <table>
+                    <tr>
+                        <th>Порода</th>
+                        <td>Дворняшка (метис)</td>
+                    </tr>
+                    <tr>
+                        <th>Вид</th>
+                        <td>Кішка свійська</td>
+                    </tr>
+                    <tr>
+                        <th>Вік</th>
+                        <td>12 років</td>
+                    </tr>
+                    <tr>
+                        <th>Вага</th>
+                        <td>~3.02 кг</td>
+                    </tr>
+                    <tr>
+                        <th>Колір шерсті</th>
+                        <td>Каліко <span class="color-circle" title="Триколірне забарвлення"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Особливості</th>
+                        <td>Дуже тепла</td>
+                    </tr>
+                    <tr>
+                        <th>Хобі</th>
+                        <td>Гра з фольгою</td>
+                    </tr>
+                    <tr>
+                        <th>Статус</th>
+                        <td><span class="status-badge">Головна грілка</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
